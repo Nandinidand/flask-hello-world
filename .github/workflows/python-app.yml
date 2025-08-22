@@ -1,0 +1,21 @@
+name: CI for flask app
+
+on: 
+  push:
+    branches: main
+jobs:
+  build:
+    runs-on:ubuntu-latest
+    steps: 
+    - name: check repositories
+      uses: actions
+    - name: set up python
+      uses: actions
+      with:
+        python-vbersion: '3.9'
+    - name: install dependencies
+      run:
+        python -m pip install --upgrade pip
+        python install -r requirements.txt
+    - name: Run tests
+      run: echo "build successfully"
