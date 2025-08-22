@@ -20,12 +20,25 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
+            # Navigate to home directory
+            cd ~
+
+            # Clone repo if it doesn't exist, otherwise pull latest changes
             if [ ! -d "flask-hello-world" ]; then
               git clone https://github.com/Nandinidand/flask-hello-world.git
             fi
+
             cd flask-hello-world
             git pull origin main
+
+            # Setup virtual environment
             python3 -m venv venv
             source venv/bin/activate
+
+            # Install dependencies
+            pip install --upgrade pip
             pip install -r requirements.txt
+
+            # Restart systemd service
+            sudo systemctl daemon-reexec
             sudo systemctl restart flask
